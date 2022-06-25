@@ -14,5 +14,6 @@ module.exports = (req,res)=>{
             if (err) throw err;
           }); 
     }
+    CardPost.findOneAndUpdate({urltitle:urlappend}, {success:"true"}, (err,suc)=>{})
     res.redirect('/')
 }
