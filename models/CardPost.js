@@ -7,7 +7,7 @@ const CardPostSchema = new Schema({
     description:String, // 이상형 월드컵 설명 부분
     username:String, // 게시자
     datePosted:{type:Date, default:new Date()}, // 게시일
-    success:{type:Boolean, default:false}
+    success:{type:Boolean, default:false} // 월드컵 만들기 끝마침 여부
 })
 
 const CardPost = mongoose.model('CardPost',CardPostSchema)

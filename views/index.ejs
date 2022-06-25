@@ -6,6 +6,7 @@
     <div class="row row-cols-1 row-cols-md-2 g-4">
 
         <% for(var i=cards.length-1; i>=0; i--) { %>
+          <% if(cards[i].success==true) { %>
         <div class="col">
           <div class="card">
             <img src="assets/img/<%= cards[i].urltitle %>/AAAAA" class="card-img-top" alt="...">
@@ -20,6 +21,7 @@
             </div>
           </div>
         </div>
+          <% } %>
         <% } %>
     </div>
     <%- include('layouts/footer'); -%>
