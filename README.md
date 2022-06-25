@@ -8,7 +8,7 @@
 
 ## 소스코드 및 배포
 
-[https://idealtype.herokuapp.com/](https://idealtype.herokuapp.com/)
+https://idealtype.herokuapp.com/
 
 GitHub에 소스 코드를 업로드 하였고, 배포는 Heroku를 이용하였습니다. 제언으로, Heroku는 파일을 저장할때 로컬 서버가 파일을 저장되는 것과 동일한 위치에 저장하는 것은 아니고 ephemeral한 임시폴더를 운용해서 별도로 저장하고 서비스가 재시작되거나 길지 않은 시간이 흐르면 초기화 됩니다. 따라서 상용 서비스를 위해서는 Amazon S3 또는 Azure Blob Storage 등을 이용하는 것이 권장됩니다.
 
@@ -123,15 +123,10 @@ const CommentPostSchema = new Schema({
 
 렌더링 후 유저에게 전달되어질 .ejs 파일들의 코드의 유지보수를 편리하게 하기 위해 여러 .ejs 파일들에 공통적으로 사용되는 코드 부분들을 컴포넌트화 하여 별도의 .ejs로 저장시키고 <%- include() %>를 이용해 불러오는 방식을 사용하였습니다.
 
-![스크린샷 2022-06-25 오후 1.03.18.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/586fcc34-6a1d-4e43-b0c1-f10555456561/스크린샷_2022-06-25_오후_1.03.18.png)
 
-header.ejs에서는 위와 같이 <head> 태그에 들어갈 기본적인 내용이 있습니다. 페이지 제목, 폰트에 대한 링크, css에 대한 링크들이 포함됩니다.
+header.ejs에서는 <head> 태그에 들어갈 기본적인 내용이 있습니다. 페이지 제목, 폰트에 대한 링크, css에 대한 링크들이 포함됩니다.
 
-![스크린샷 2022-06-25 오전 3.45.09.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/20055aa4-780e-4a2b-b5df-ee60ee707d2e/스크린샷_2022-06-25_오전_3.45.09.png)
-
-nav.ejs는 위와 같이 공통적으로 모든 페이지 최상단에 보여질 navigation에 대한 코드를 담고있습니다.
-
-![스크린샷 2022-06-25 오후 1.04.00.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4ec1d316-0f00-42e2-ac7e-be3fffd64fe8/스크린샷_2022-06-25_오후_1.04.00.png)
+nav.ejs는 공통적으로 모든 페이지 최상단에 보여질 navigation에 대한 코드를 담고있습니다.
 
 이상형 월드컵의 로고와 이름을 제일 왼쪽에 배치하였고 이를 누르면 ‘/’로 이동하게됩니다. 다음으로는 이상형 월드컵을 만들 수 있는 ‘월드컵 만들기'와 제작자에 대한 소개를 담은 ‘About’ 페이지를 배치하였습니다.
 
@@ -139,29 +134,17 @@ nav.ejs는 위와 같이 공통적으로 모든 페이지 최상단에 보여질
 
 화면 우측에는 로그인, 회원가입, 로그아웃을 할 수 있는 곳으로 이동할 수 있는 버튼을 배치하였습니다. 역시 EJS를 이용해서 상술한 loggedIn 전역 변수를 조건문으로 조사하여 로그인 상태가 아니라면 로그인과 회원가입 버튼을 보여주고, 로그인 상태라면 로그아웃 버튼만 보여주도록 하였습니다. 로그인 버튼을 누르면 ‘/auth/login’으로, 회원가입 버튼을 누르면 ‘/auth/register’로, 로그아웃 버튼을 누르면 ‘/auth/logout’으로 이동합니다.
 
-![스크린샷 2022-06-25 오후 1.05.33.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/83e9f0e9-4af3-480f-861a-5da9c425328c/스크린샷_2022-06-25_오후_1.05.33.png)
-
-![스크린샷 2022-06-25 오후 1.04.16.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/661b21a2-c407-4d80-8bad-433abb293bc2/스크린샷_2022-06-25_오후_1.04.16.png)
-
 footer.ejs는 화면 아래에 공통적으로 나오는 부분으로, twitter의 이상형 월드컵 검색 링크를, 제작자의 GitHub으로 이동할 수 있는 버튼을 배치하였습니다.
-
-![스크린샷 2022-06-25 오후 1.26.52.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fcdfff4d-5d6a-4cfe-bcd2-c80c3ef21817/스크린샷_2022-06-25_오후_1.26.52.png)
 
 script.ejs에서는 공통적으로 bootstrap에 대한 cdn 링크가 담겨져있습니다.
 
 ### 홈페이지
 
 ### ‘/’, homeController, home.js, index.ejs
-
-![스크린샷 2022-06-25 오후 12.59.12.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/22563ce0-1ecf-4bf4-8bda-77688c22d522/스크린샷_2022-06-25_오후_12.59.12.png)
-
+    
 클라이언트가 서버에 맨 처음으로 요청을 보내는 주소는 ‘/’입니다. ‘/’에 대해 get request를 받는경우 homeController의 모듈 ‘/controllers/home.js’를 실행합니다.
 
 home.js에서는 단순하게 index.ejs를 렌더링 시킬 뿐만 아니라 navigation 부분에 클릭이 되었을때 글자 색상이 변해서 강조되는 것을 것을 방지하기 위해 selectPage라는 변수에 비어있는 값을 전달해주고, 유저들이 직접 만든 이상형 월드컵을 보여주기 위해 이상형 월드컵에 대한 정보를 ‘/models/CardPost.js/’에서 find하여 cards 변수에 리턴받고 파라미터로 전달 해줍니다.
-
-![스크린샷 2022-06-25 오후 1.00.16.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/822a5cb4-662e-4173-862d-51880dc0102b/스크린샷_2022-06-25_오후_1.00.16.png)
-
-![스크린샷 2022-06-25 오후 1.32.15.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b1b71d2-e621-4655-8dc8-4b074d6bfc80/스크린샷_2022-06-25_오후_1.32.15.png)
 
 index.ejs의 구조는 EJS를 이용해 단순해졌습니다. <%- include -%>를 이용하여 header.ejs, nav.ejs, footer.ejs, script.ejs를 불러옵니다. 위에서 전달받은 selectPage의 변수의 값이 비어있으므로 navigation바에는 어떤 글씨도 강조되지 않습니다. EJS 이용하여 넘겨받은 이상형 월드컵에 대한 데이터들의 개수인 cards.length만큼 역순으로 반복하여 각각 카드 형태로 보여줍니다. 이상형 월드컵 제목인 cards[i].cardtitle, 설명 부분인 cards[i].description, 이상형 월드컵을 만든 유저인 cards[i].username, 그리고 이상형 월드컵을 만든 날짜인 cards[i].datePosted.toDateString()이 변수로 들어갑니다. 또한 ‘시작하기'버튼과 ‘댓글보기' 버튼 두개를 배치하여 전자를 누르면 ‘/play/(영어주소)’로, 후자를 누르면 ‘/comment/(영어주소)’로 이동합니다. 여기서 영어주소는 unique하며 영어주소가 다르므로 app.js에서 다르게 인식합니다.
 
@@ -173,29 +156,17 @@ index.ejs의 구조는 EJS를 이용해 단순해졌습니다. <%- include -%>�
 
 ‘/views/layouts/nav.ejs’의 상단 우측에 회원가입 버튼을 누르면 ‘/auth/register’로 이동하는데, 이 과정에서 redirectIfAuthenticatedMiddleware와 newUserController를 불러옵니다. 
 
-![스크린샷 2022-06-25 오후 1.49.50.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/76cdc00c-9ea8-47ea-ba48-8c716da6c45d/스크린샷_2022-06-25_오후_1.49.50.png)
-
 redirectIfAuthenticatedMiddleware는 ‘/middleware/redirectIfAuthenticatedMiddleware.js’에 있는 모듈이며, 세션에 userId 정보가 존재하는 경우, 즉, 로그인 상태인 경우 회원가입 페이지에 갈 수 없고 ‘/’로 redirect하게 됩니다.
-
-![스크린샷 2022-06-25 오후 1.54.54.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f19d005f-13bf-4c11-9b0c-9f1522050fc9/스크린샷_2022-06-25_오후_1.54.54.png)
 
 newUserController는 ‘/controllers/newUser.js’ 모듈이며, 이 모듈에 requst를 보낸 곳의 path가 ‘/auth/registerfail’인 경우 fail 변수에 fail을 넣어주고 그게 아닌 경우 빈 값을 넣어줍니다. selectPage 역시 빈값을 넣어주고 register.ejs를 렌더링합니다. req.path가 현재 ‘/auth/register’이므로 fail에는 빈 값이 들어갑니다.
 
-![스크린샷 2022-06-25 오후 1.57.19.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ba39c974-59f5-4222-9a08-041f16bb9ca9/스크린샷_2022-06-25_오후_1.57.19.png)
-
-![스크린샷 2022-06-25 오후 2.01.03.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/96517ec8-c602-4d43-b02d-2bd1ab4eeaaf/스크린샷_2022-06-25_오후_2.01.03.png)
-
 화면 상단에 회원가입 글씨와 배경 사진을 넣어주었고, 아이디와 비밀번호를 입력할 수 있는 text와 password 타입의 input을 넣어주었습니다. 
-
-![스크린샷 2022-06-25 오후 2.03.12.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/edf09abc-736d-47d2-b345-2f8d506ae16c/스크린샷_2022-06-25_오후_2.03.12.png)
 
 EJS로 넘겨받은 fail 변수를 이용해서 ‘/controllers/newUser.js’ 모듈의 req.path가 ‘/auth/registerfail’이어서 fail이 “fail”인 경우, 중복된 아이디임을 나타내주고 fail이 “”인 경우 아무것도 나타내지 않습니다.
 
 ### ‘/users/register’, redirectIfAuthenticatedMiddleware, StoreUserController, storeUser.js, ‘/auth/registerfail’,
 
 회원가입할 아이디와 비밀번호를 기입한 후 가입 버튼을 누르면 post 방식으로 ‘/users/register’로 request를 보냅니다. redirectIfAuthenticatedMiddleware로 로그인 중에는 접근하지 못하도록 합니다.
-
-![스크린샷 2022-06-25 오후 2.10.11.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/33f6e0e6-3d13-4c21-ba00-b93b5f412c67/스크린샷_2022-06-25_오후_2.10.11.png)
 
 이 후, StoreUserController로 storeUser.js 모듈을 실행합니다. 회원가입 정보를 데이터베이스에 저장하기 위하여 ‘/models/User.js’를 불러오고 post request에 대한 정보를 담고있는 req.body를 express에서는 native로 파싱을 해주는데, 이를 이용하여 데이터베이스를 생성합니다. username과 password를 저장하게 되며, User.js의 스키마를 보면, 비밀번호의 경우 bcrypt 모듈을 불러와서 해시로 암호화를 진행한 후 저장하게 됩니다. 만약 error인 경우는 이미 username이 존재하여 중복된 경우이므로 ‘/auth/registerfail’로 redirect해줍니다. 이 경우, fail 변수의 값이 “fail”이므로 중복된 아이디임을 나타냅니다. 에러가 없이 정상적으로 진행된 경우에는 ‘/’로 redirect합니다.
 
@@ -207,37 +178,19 @@ EJS로 넘겨받은 fail 변수를 이용해서 ‘/controllers/newUser.js’ �
 
 navigation의 로그인 버튼을 누르면 ‘/auth/login’으로 이동합니다. redirectIfAuthenticatedMiddleware로 로그인 상태인 경우 접근하지 못하도록 합니다. 이후 loginController의 login.js 모듈을 실행합니다. 
 
-![스크린샷 2022-06-25 오후 2.47.33.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3ba40ebd-8cf4-4ab3-ad4f-c9b12a8531a1/스크린샷_2022-06-25_오후_2.47.33.png)
-
 req.path가 ‘/auth/loginfail’인 경우 stat에 “fail”을, req.path가 ‘/auth/loginrequired’인 경우 stat에 “required”를 할당하고 그 외에 경우에는 빈 값을 할당시킵니다. selectPage에 빈 값을 주어 글씨의 강조가 없도록 합니다. login.ejs를 렌더링하며 selectPage와 stat 변수를 넘겨줍니다.
 
-![스크린샷 2022-06-25 오후 2.46.14.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52be79b4-bdb2-48b0-b885-2320b0da432a/스크린샷_2022-06-25_오후_2.46.14.png)
-
-![스크린샷 2022-06-25 오후 2.52.10.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2cdcd374-a12c-4789-a4fa-e1ac2ce2477c/스크린샷_2022-06-25_오후_2.52.10.png)
-
 상단에 배경화면과 로그인 글씨를 배치하고, 하단에 아이디와 비밀번호를 입력할 수 있도록 input을 배치합니다. 최하단의 버튼을 누르면, form을 submit하는데, post방식으로 ‘/users/login’에 request를 보냅니다.
-
-![스크린샷 2022-06-25 오후 2.54.48.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f19687fd-f798-4ae3-adb7-24445efaa9d3/스크린샷_2022-06-25_오후_2.54.48.png)
-
-![스크린샷 2022-06-25 오후 2.54.55.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5526dfa9-f7d1-4d84-a5dd-16b893a38954/스크린샷_2022-06-25_오후_2.54.55.png)
 
 만일 stat 변수의 값이 “fail”인 경우, 아이디나 패스워드가 정확하지 않다고 표시하고, stat 변수의 값이 “required”인 경우 어떠한 컨텐츠를 접근하기 위해서는 로그인을 해야하므로 로그인이 필요하다고 표시합니다. 
 
 ### ‘/users/login’, redirectIfAuthenticatedMiddleware, loginUserController, loginUser.js
 
-![스크린샷 2022-06-25 오후 3.04.34.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/263187ca-0211-40b1-a9a6-9a25611fc14d/스크린샷_2022-06-25_오후_3.04.34.png)
-
 로그인이 정상적으로 되면 세션에 _id를 추가해주기 위해 loginController의 loginUser.js 모듈을 실행합니다. 유저에 대한 정보를 ‘/model/User.js’에서 불러옵니다. findOne() 메소드를 이용하여 username에 해당하는 데이터를 찾게되고, 성공적으로 찾지 못한 경우 ‘/auth/loginfail’로 redirect합니다. 성공적으로 찾은 경우, 해당 데이터에 저장되어 있는 비밀번호와 유저가 로그인을 하기 위해 입력한 비밀번호를 암호화한 것을 비교하여, 비밀번호가 같으면 req.session.userId에 해당 유저의 _id 값을 넣어주고 ‘/’로 redirect해줍니다. 만약 비밀번호가 다르다면 ‘/auth/loginfail’로 redirect해줍니다. ‘/auth/loginfail’로 로그인창으로 되돌아 간 경우 아이디 또는 비밀번호가 정확하지 않다고 표기합니다.
 
 ### ‘/auth/logout’, logoutController, logout.js
 
-![스크린샷 2022-06-25 오후 4.55.03.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3fe9a043-e1cc-4d25-af77-5bb66826fe7c/스크린샷_2022-06-25_오후_4.55.03.png)
-
-![스크린샷 2022-06-25 오후 4.54.58.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c3321ad8-748e-462c-85d8-762d462e1876/스크린샷_2022-06-25_오후_4.54.58.png)
-
 로그인 하기전에 navigation의 모습은 왼쪽과 같고, 로그인 하고나서는 ‘로그아웃' 버튼만 보이도록 바뀌게 됩니다. 로그아웃 버튼을 클릭하면 ‘/auth/logout’으로 이동합니다. 
-
-![스크린샷 2022-06-25 오후 4.57.37.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/70166e56-2954-486e-a8aa-c95c1adffdc7/스크린샷_2022-06-25_오후_4.57.37.png)
 
 ‘/auth/logout’을 요청받으면 서버가 logoutController의 logout.js 모듈을 실행하게 됩니다.
 
@@ -251,21 +204,13 @@ req.session 부분을 destroy() 메소드를 이용하여 없애주고 끝마친
 
 navigation의 ‘월드컵 만들기'를 누르면 ‘/posts/new’로 이동하게 됩니다. newPostController의 newPost.js 모듈이 실행됩니다. 
 
-![스크린샷 2022-06-25 오후 3.13.12.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/edd0edb6-e851-4360-90e7-e69cbf97a31f/스크린샷_2022-06-25_오후_3.13.12.png)
-
 loggedIn 상태일 경우에만 나만의 월드컵 만들기를 정상적으로 진행할 수 있고 로그인 되어있지 않은 경우 ‘/auth/loginrequired’로 redirect하여 로그인 창에서 로그인을 할 수 있게 유도하고 로그인이 필요하다는 글씨를 별도로 나타내줍니다. 로그인이 정상적으로 된 경우 selectPage에 “create”를 대입하고, create.ejs를 렌더링합니다.
-
-![스크린샷 2022-06-25 오후 3.14.54.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/914bee9c-cc61-416c-8567-63573140a251/스크린샷_2022-06-25_오후_3.14.54.png)
-
-![스크린샷 2022-06-25 오후 3.17.05.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/29e92c73-8829-43e6-912e-9e813836e98d/스크린샷_2022-06-25_오후_3.17.05.png)
 
 상단에 ‘월드컵 만들기' 글씨와 배경화면을 띄워주었고, 월드컵 이름, 영어 이름, 주제 설명, 썸네일 이미지, 이미지 폴더를 선택할 수 있도록 input 태그들을 추가하였습니다. 전부 required 옵션을 주어 필수로 입력하게끔 하였고, 버튼을 누르면 form의 내용을 post 방식으로 ‘/posts/store’로 보내도록 하였습니다. selectPage가 “create”이므로 navigation의 ‘월드컵 만들기'의 색상이 진한 회색으로 강조되어 보입니다. selectPage가 “createfailalreadyexisting”, “createfailnotsixteen”, “createfailimagetype” 중 하나라면, 각각 차례대로 이미 존재하는 영어 주소임을, 이미지의 파일의 개수가 16개 여야함을, 이미지의 확장자가 .jpg, .png, .jpeg 중에 하나여야 함을 빨간 글씨로 강조해서 나타냅니다.
 
 ### ‘/posts/store’, storePostController, storeCard.js, create2.ejs
 
 ‘/posts/store’ request를 처리하며 storePostController의 storeCard.js 모듈을 실행합니다.
-
-![스크린샷 2022-06-25 오후 3.32.54.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ad28360e-2397-495d-9068-9c2d3b6625a2/스크린샷_2022-06-25_오후_3.32.54.png)
 
 storeCard.js 모듈에서는 ‘/models/CardPost.js’를 불러와서 이상형월드컵에 대한 정보를 저장하는 과정이 있고, 실제 서버 ‘/public/assets/img/영어이름’ 폴더에 이상형월드컵에 사용될 사진 16장과 썸네일 사진 1장, 총 17개의 이미지 파일이 저장되는 과정이 진행됩니다.
 
@@ -275,17 +220,11 @@ storeCard.js 모듈에서는 ‘/models/CardPost.js’를 불러와서 이상형
 
 끝까지 문제가 없이 통과되었으므로 create2.ejs로 selectPage(”create”), sendurl(디렉토리 위치), urlappend(영어 이름) 변수를 넘겨주면서 렌더링합니다.
 
-![스크린샷 2022-06-25 오후 3.44.42.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/98d178e2-ed55-4dd6-8c3f-e29331e7367c/스크린샷_2022-06-25_오후_3.44.42.png)
-
-![스크린샷 2022-06-25 오후 3.43.32.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/04e2b84a-c062-44dc-96ae-1717e7677e74/스크린샷_2022-06-25_오후_3.43.32.png)
-
 create2.ejs에서는 form안에 EJS를 이용해서 16번 반복하면서 img 태그를 만들어주고 src는 ‘/<%= sendurl %>/<%= i %>’ 값을 주어서 생성한 디렉토리에 있는 사진 파일들을 불러오고, 아래에 input 태그를 두어 표기할 이름을 타이핑할 수 있도록 하였습니다. 화면 하단에는 월드컵 만들기 버튼이 있고 이를 누르면 post 방식으로 form을 ‘/posts/name’에 전송합니다. 전송할 때 type이 hidden인 input에서 이상형 월드컵의 영어 이름이 들어있는 urlappend 변수도 같이 전송합니다.
 
 ### ‘/posts/name’, storeNameController, storeName.js
 
 storeNameController의 storeName.js 모듈을 실행합니다.
-
-![스크린샷 2022-06-25 오후 3.50.56.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/763e7458-cf29-4bbe-aebb-c500a27f0721/스크린샷_2022-06-25_오후_3.50.56.png)
 
 imagenames 배열 변수에 req.body.candidate를 할당하여 이전 16개의 input들의 value값들을 받아옵니다. urlappend에는 영어이름인 urltitle을 받아옵니다. 16번 반복하여 ‘public/assets/img/(urlappend변수)/’의 폴더 경로에 i번째 사진 파일명 i를 imagenames[i-1]로 fs 모듈의 fs.rename을 이용하여 바꾸어줍니다. 여기서, imagenames[0]은 썸네일 사진 ‘AAAAA’가 되므로 imagenames[1]이 1번째 사진에 대해 이름을 표기한 value 값이 됩니다. 반복이 끝나면 ‘/’로 redirect합니다.
 
@@ -297,29 +236,15 @@ imagenames 배열 변수에 req.body.candidate를 할당하여 이전 16개의 i
 
 처음 화면의 ‘시작하기' 버튼을 누르면 이상형 월드컵 영어 이름에 맞는 unique한 src가 :link에 대입되어 진행됩니다. playController의 play.js 모듈이 실행됩니다.
 
-![스크린샷 2022-06-25 오후 4.05.29.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bd1c1520-3640-4a92-a32f-ba9989a7187a/스크린샷_2022-06-25_오후_4.05.29.png)
-
 CardPost를 find() 메소드를 이용하여 영어 이름 link에 해당하는, CardPost 데이터를 찾아서 card로 리턴 받습니다. link2에는 해당 영어 이름에 해당하는 폴더에 대한 경로를 저장합니다. link2에 해당하는 폴더를 읽어 오기위해 fs 모듈의 fs.readdir를 이용합니다. 정상적으로 읽은 경우 filelist에는 17개의 사진들의 이름이 있을 것이고, selectPage에 빈 값을 주고 playcard.ejs를 selectPage, card, filelist, loggedIn 값을 전달하면서 렌더링합니다. 
-
-![스크린샷 2022-06-25 오후 4.08.51.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/082244c0-d874-48b8-a3d8-1d10f835d890/스크린샷_2022-06-25_오후_4.08.51.png)
 
 playcard.ejs는 이전에 기본적인 이상형 월드컵의 코드와 동일하지만, EJS를 이용하여 일부 수정하였습니다. 
 
-![스크린샷 2022-06-25 오후 4.12.04.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/53769b47-70fa-484f-93c8-cb3c9a326f71/스크린샷_2022-06-25_오후_4.12.04.png)
-
 Juqery의 on 메소드를 이용하여 모든 DOM이 불러왔을때 EJS를 사용하여 filelist[1] 부터 filelist[16]까지 총 16개의 사진에 대한 경로를 imagestoload 배열에 push합니다. 이후 loadImages 함수를 호출하고 imagestoload를 파라미터로 전달합니다. 
-
-![스크린샷 2022-06-25 오후 4.12.25.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b5327999-7f40-4719-91e4-e0e485757b95/스크린샷_2022-06-25_오후_4.12.25.png)
 
 loadImages 함수에서 16개 이미지에 대한 태그를 생성하고 images 배열로 push합니다.
 
-![스크린샷 2022-06-25 오후 4.23.38.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/32b9d8f4-63d0-46ca-b502-999a440a0e63/스크린샷_2022-06-25_오후_4.23.38.png)
-
 photoname 변수에는 16개의 이미지에 대한 이름을 할당합니다. order 변수에 1부터 16까지 16개의 숫자를 push합니다. 슈도 랜덤을 만들기 위하여 order의 숫자를 random() 메소드를 이용해 섞어줍니다. 유저가 보는 화면 왼쪽에는 order[0]번째 최초 이미지를 src에 불러오고 오른쪽에는 order[1]번째 images를 불러옵니다. 이 두 이미지들의 이름을 나타내는 innerText는 각각 order[0]번째 photoname, order[1]번째 photoname이 됩니다.  onclick 이벤트와 onload 이벤트를 적절히 활용하여 이미지를 클릭하면 order 배열을 splice 메소드로 제거해가면서 최종 하나의 우승자가 나올때까지 반복하게 됩니다.
-
-![스크린샷 2022-06-25 오후 4.31.27.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/24a9185a-59ed-4dcb-ad1d-2d54b687cc1f/스크린샷_2022-06-25_오후_4.31.27.png)
-
-![스크린샷 2022-06-25 오후 4.29.49.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/15303171-f622-4430-9ba2-730deffed64d/스크린샷_2022-06-25_오후_4.29.49.png)
 
 order가 제거되어 length가 1이 되어 우승자가 가려졌을 때 loggedIn 상태일때만 댓글을 달 수 있는 id가 comment인 div 태그를 append 해줍니다. 로그인 상태가 아니더라도 이상형 월드컵을 플레이 할 수는 있지만 끝나고나서 댓글을 달 수 있는 박스는 나오지 않습니다. 코멘트 창에 댓글을 입력하고 작성을 누르게 되면 onClick 이벤트인 addReply()가 실행됩니다.
 
@@ -329,26 +254,14 @@ order가 제거되어 length가 1이 되어 우승자가 가려졌을 때 logged
 
 ### ‘/posts/comment’, storeCommentController, storeComment.js
 
-![스크린샷 2022-06-25 오후 4.33.45.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/76078b58-9280-445d-863d-85d6c07ce4ca/스크린샷_2022-06-25_오후_4.33.45.png)
-
 addReply()에서는 form을 post방식으로 ‘/posts/comment’로 보내게 되는데 이때 총 5개의 값을 보냅니다. 이때 보내는 내용은 전부 hidden으로 되어있으며 작성 버튼만 누르면 유저가 따로 입력할 필요없이 보내지게 됩니다. 이상형 월드컵 제목인 cardtitle, 영어 주소인 urltitle, 로그인 중인 유저의 id, 댓글 내용인 reply, 유저가 우승자로 뽑은 toppick이 보내집니다. ‘/posts/comment’는 storeCommentController의 storeComment.js 모듈을 실행합니다. 
-
-![스크린샷 2022-06-25 오후 4.39.26.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0b45a11b-ed33-4f2b-a805-f6ce21541487/스크린샷_2022-06-25_오후_4.39.26.png)
 
 storeComment.js에서는 ‘/model/Comment.js’를 불러와서, create 메소드를 통해 request 받은 post의 req.body부분을 이용해서 sendcomment[0]부터 sendcomment[4]까지 총 5개의 데이터를 저장하게 됩니다. 저장이 끝나면 ‘/’로 redirect됩니다.
 
 ### ‘/comment/:link’, viewCommentController, viewComment.js, viewcomment.ejs
 
-![스크린샷 2022-06-25 오후 4.43.02.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/96d02c22-8a7b-4436-b1b6-9d37fe6ce749/스크린샷_2022-06-25_오후_4.43.02.png)
-
 ‘/’에서 디스플레이 되는 각 주제의 이상협 월드컵에 대하여 ‘댓글보기' 버튼을 클릭하면 unique한 link에 맞게 ‘/comment/:link’로 이동하게됩니다. viewCommentController의 viewComment.js 모듈이 실행됩니다. 
 
-![스크린샷 2022-06-25 오후 4.46.02.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5702ce8b-c5ec-4c6b-9d10-13f2db037306/스크린샷_2022-06-25_오후_4.46.02.png)
-
 viewComment.js에서 link 변수에는 unique한 영어 이름을 담고, comments에는 Comment.find()를 이용하여 urltitle이 link인, 즉, 해당 영어 이름에만 해당하는 댓글들만 가져옵니다. onecard에는 영어 이름에 해당하는 이상형월드컵에 대한 정보를 가져옵니다. selectPage에는 빈 값을 주고, username 배열을 하나 만듭니다. username 배열은 특정 월드컵의 댓글들을 담은 comments를 for of 문으로 반복하여 하나의 데이터에 대해서 User.find()를 이용하여 _id:가 comment.id인 데이터를 user 변수로 받아와서, 이 유저의 username을 username 배열에 push합니다. 즉, id만 알고 있는 상태였지만 username을 받아온 것입니다. viewcomment.ejs를 selectPage, comments, onecard, link, username 5개의 파라미터를 넘기면서 렌더링합니다.
-
-![스크린샷 2022-06-25 오후 4.47.55.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/00500ae0-fcf0-46f0-80f9-7565d8dddd46/스크린샷_2022-06-25_오후_4.47.55.png)
-
-![스크린샷 2022-06-25 오후 5.07.25.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cbb14181-6279-4e93-b3ec-d11c7dea3d26/스크린샷_2022-06-25_오후_5.07.25.png)
 
 화면 상단에는 <%= onecard[0].cardtitle %>을 이용하여 어떤 월드컵인지에 대한 정보와 배경화면을 배치하였습니다. 하단에는 EJS의 for문을 이용하여, 넘겨받은 comments 배열의 길이만큼 반복하면서 col-6으로 한 줄에 2개씩 댓글을 배치하도록 하였습니다. BootStrap으로 round-pill과 border 굵기 효과 등을 주어서 보기 좋게 만들어 주었습니다. 글자가 orange색인 부분은, i번째 username으로 누가 댓글을 작성했는지 보여주고, blueviolet 색상인 부분은 i번째 comment의 toppick으로 우승자로 선택한 것이 무엇인지 보여줍니다. cornflowerblue 색상 부분은 i번째 comment의 datePosted 부분으로, 댓글을 올린 날짜를 알려줍니다. 마지막으로, i번째 comments의 comment를 불러와 어떤 댓글을 달았는지 보여줍니다.
