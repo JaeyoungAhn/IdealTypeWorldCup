@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+    <body>
+        <%- include('layouts/nav'); -%>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('/assets/img/create.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1>월드컵 만들기</h1>
+                            <span class="subheading">각 이미지들의 이름을 정해주세요!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        <main>
+            <div class="container">
+                    <form class="row" action="/posts/name" method="POST" enctype="multipart/form-data">
+                        <% for(var i=1; i <= 16; i++) { %>
+                        <div class="col-4">
+                          <img src="/<%= sendurl %>/<%= i %>" width="200px"/>
+                          <input type="text" class="form-control" name="candidate" id="candidate" placeholder="표기 할 이름" style="width:200px" required/>
+                          <br>
+                        </div>
+                        <% } %>
+                        <input type="hidden" name="urltitle" value="<%= urlappend %>">
+                        &nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-dark text-uppercase" id="submitButton" type="submit" style="width:200px">월드컵 만들기</button>
+                    </form>
+            </div>
+        </main>
+        <%- include('layouts/footer'); -%>
+        <%- include('layouts/script'); -%>
+    </body>
+</html>

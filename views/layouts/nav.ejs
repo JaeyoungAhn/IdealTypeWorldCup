@@ -1,0 +1,38 @@
+<nav class="p-3 bg-dark text-white">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" style="text-decoration-line:none;">
+            <img src="/assets/logo.svg" alt="" width="120" >
+            <span class="fs-2 text-white"> &nbsp;&nbsp;&nbsp;&nbsp; 이상형 월드컵</span>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="" class="nav-link fs-4 text-white"></a></li>
+          <% if(selectPage == "create" || selectPage == "createfailalreadyexisting" ||
+          selectPage=="createfailnotsixteen" || selectPage=="createfailimagetype") { %>
+            <li><a href="/posts/new" class="nav-link fs-4 text-secondary">월드컵 만들기</a></li>
+            <li><a href="/about" class="nav-link fs-4 text-white">About</a></li>
+          <% } else if(selectPage == "about") { %>
+            <li><a href="/posts/new" class="nav-link fs-4 text-white">월드컵 만들기</a></li>
+            <li><a href="/about" class="nav-link fs-4 text-secondary">About</a></li>
+          <% } else { %>
+            <li><a href="/posts/new" class="nav-link fs-4 text-white">월드컵 만들기</a></li>
+            <li><a href="/about" class="nav-link fs-4 text-white">About</a></li>
+            <% } %>
+        </ul>
+
+        <% if(!loggedIn) { %>
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-light me-2" onclick="location.href ='/auth/login'">로그인</button>
+                <button type="button" class="btn btn-warning" onclick="location.href ='/auth/register'">회원가입</button>
+              </div>
+        <% } %>
+        <% if(loggedIn) { %>
+            <div class="text-end">
+                <button type="button" class="btn btn-warning" onclick="location.href ='/auth/logout'">로그아웃</button>
+              </div>
+        <% } %>
+        
+      </div>
+    </div>
+</nav>

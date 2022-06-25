@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+    <body>
+        <%- include('layouts/nav'); -%>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('/assets/img/<%= onecard[0].urltitle %>/AAAAA')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1><%= onecard[0].cardtitle %></h1>
+                            <span class="subheading">댓글 한마디</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5">
+                    <% for(var i=0; i<comments.length; i++) { %>
+                        <div class="col-md-6 col-lg-6 col-xl-6">
+                            <div class="card-body border border-secondary border-5 rounded-pill">
+                                <div class="d-flex mb-4">
+                                    <div class="ms-3">
+
+                                        <div class="fw-bold"><span style="color:orange"><%= username[i] %></span>
+                                        picked <span style="color:blueviolet"><%= comments[i].toppick %></span> </div>
+
+                                        <div class="fw-bold">on <span style="color:cornflowerblue">
+                                            <%= comments[i].datePosted.toDateString() %></span></div>
+
+                                        <div><%= comments[i].comment %></div>
+
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    <% } %>
+                </div>
+                <%- include('layouts/footer'); -%>
+            </div>
+        </main>
+    </body>
+    <%- include('layouts/script'); -%>
+</html>

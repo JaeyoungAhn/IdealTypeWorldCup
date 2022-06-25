@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+    <body>
+        <%- include('layouts/nav'); -%>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('/assets/img/create.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1>월드컵 만들기</h1>
+                            <span class="subheading">나만의 이상형 월드컵을 만들어 보세요!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                            <form action="/posts/store" method="POST" enctype="multipart/form-data">
+                                <div>
+                                    <label>월드컵 이름(유저들에게 보이는 이름으로 중복 가능)</label>
+                                    <input type="text" class="form-control" name="cardtitle" id="cardtitle" placeholder="명곡 월드컵" required/>
+                                </div>
+                                <div>
+                                    <label>영어 이름(내부적으로 인식하기 위해 사용되며 중복 불가능)</label>
+                                    <input type="text" class="form-control" name="urltitle" id="urltitle" placeholder="BestSong" required/>
+                                </div>
+                                <div>
+                                    <label>주제 설명</label>
+                                    <textarea class="form-control" name="description" id="description"
+                                    rows="5" placeholder="가장 좋아하는 명곡은 무엇인가요?" required></textarea>
+                                </div>
+                                <div>
+                                    <label>썸네일 이미지(메인 페이지에 보일 이미지)</label>
+                                   <input type="file" class="form-control" id="image" name="image" accept=".jpg, .png, .jpeg" required/>
+                                </div>
+                                <div>
+                                    <label>이미지 폴더(폴더 내 파일이 16개 여야 하며 파일명 그대로 실표기 됨)</label>
+                                    <input type="file" class="form-control" name="images" id="images"
+                                    multiple="" directory="" webkitdirectory="" mozdirectory="" accept=".jpg, .png, .jpeg" required/>
+                                </div>
+                                <br>
+                                <button class="btn btn-dark text-uppercase" id="submitButton" type="submit">다음 단계</button>
+                                <% if(selectPage=="createfailalreadyexisting") { %>
+                                    <span style="color:red">&nbsp;이미 존재하는 영어 이름입니다.</span>
+                                    <% } else if(selectPage=="createfailnotsixteen") { %>
+                                    <span style="color:red">&nbsp;이미지 파일의 개수가 반드시 16개여야 합니다.</span>
+                                <% } else if(selectPage=="createfailimagetype") { %> 
+                                    <span style="color:red">&nbsp;이미지들의 확장자가 .jpg, .png, .jpeg 중 하나여야합니다.</span>
+                                <% } %>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <%- include('layouts/footer'); -%>
+        <%- include('layouts/script'); -%>
+    </body>
+</html>

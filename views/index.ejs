@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <%- include('layouts/header'); -%>
+  <body style="background-color:lightgrey;">
+    <%- include('layouts/nav'); -%>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+        <% for(var i=cards.length-1; i>=0; i--) { %>
+        <div class="col">
+          <div class="card">
+            <img src="assets/img/<%= cards[i].urltitle %>/AAAAA" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title fs-2"><%= cards[i].cardtitle %></h5>
+              <p class="card-text fs-3"><%= cards[i].description %></p>
+              <div>&nbsp;&nbsp;Uploaded by - <%= cards[i].username %></div>
+              <div>&nbsp;&nbsp;Date Posted - <%= cards[i].datePosted.toDateString() %></div>
+              <br>
+              <a href="/play/<%= cards[i].urltitle %>" class="btn btn-dark fs-3">시작하기</a>
+              <a href="/comment/<%= cards[i].urltitle %>" class="btn btn-dark fs-3">댓글보기</a>
+            </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+    <%- include('layouts/footer'); -%>
+  </body>
+  <%- include('layouts/script'); -%>
+</html>
