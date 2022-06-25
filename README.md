@@ -95,6 +95,7 @@ const CardPostSchema = new Schema({
     description:String, // 이상형 월드컵 설명 부분
     username:String, // 게시자
     datePosted:{type:Date, default:new Date()}, // 게시일
+    success:{type:Boolean, default:false} // 월드컵 만들기 끝마침 여부
 })
 ```
 
@@ -146,7 +147,7 @@ script.ejs에서는 공통적으로 bootstrap에 대한 cdn 링크가 담겨져�
 
 home.js에서는 단순하게 index.ejs를 렌더링 시킬 뿐만 아니라 navigation 부분에 클릭이 되었을때 글자 색상이 변해서 강조되는 것을 것을 방지하기 위해 selectPage라는 변수에 비어있는 값을 전달해주고, 유저들이 직접 만든 이상형 월드컵을 보여주기 위해 이상형 월드컵에 대한 정보를 ‘/models/CardPost.js/’에서 find하여 cards 변수에 리턴받고 파라미터로 전달 해줍니다.
 
-index.ejs의 구조는 EJS를 이용해 단순해졌습니다. <%- include -%>를 이용하여 header.ejs, nav.ejs, footer.ejs, script.ejs를 불러옵니다. 위에서 전달받은 selectPage의 변수의 값이 비어있으므로 navigation바에는 어떤 글씨도 강조되지 않습니다. EJS 이용하여 넘겨받은 이상형 월드컵에 대한 데이터들의 개수인 cards.length만큼 역순으로 반복하여 각각 카드 형태로 보여줍니다. 이상형 월드컵 제목인 cards[i].cardtitle, 설명 부분인 cards[i].description, 이상형 월드컵을 만든 유저인 cards[i].username, 그리고 이상형 월드컵을 만든 날짜인 cards[i].datePosted.toDateString()이 변수로 들어갑니다. 또한 ‘시작하기'버튼과 ‘댓글보기' 버튼 두개를 배치하여 전자를 누르면 ‘/play/(영어주소)’로, 후자를 누르면 ‘/comment/(영어주소)’로 이동합니다. 여기서 영어주소는 unique하며 영어주소가 다르므로 app.js에서 다르게 인식합니다.
+index.ejs의 구조는 EJS를 이용해 단순해졌습니다. <%- include -%>를 이용하여 header.ejs, nav.ejs, footer.ejs, script.ejs를 불러옵니다. 위에서 전달받은 selectPage의 변수의 값이 비어있으므로 navigation바에는 어떤 글씨도 강조되지 않습니다. EJS 이용하여 넘겨받은 이상형 월드컵에 대한 데이터들의 개수인 cards.length만큼 역순으로 반복하여 각각 카드 형태로 보여줍니다. 단, 내부에 조건문을 두어, cards[i].success가 true로 정상적으로 이상형 생성을 마친 것들에 대해서만 진행합니다. 이상형 월드컵 제목인 cards[i].cardtitle, 설명 부분인 cards[i].description, 이상형 월드컵을 만든 유저인 cards[i].username, 그리고 이상형 월드컵을 만든 날짜인 cards[i].datePosted.toDateString()이 변수로 들어갑니다. 또한 ‘시작하기'버튼과 ‘댓글보기' 버튼 두개를 배치하여 전자를 누르면 ‘/play/(영어주소)’로, 후자를 누르면 ‘/comment/(영어주소)’로 이동합니다. 여기서 영어주소는 unique하며 영어주소가 다르므로 app.js에서 다르게 인식합니다.
 
 ---
 
@@ -226,7 +227,7 @@ create2.ejs에서는 form안에 EJS를 이용해서 16번 반복하면서 img �
 
 storeNameController의 storeName.js 모듈을 실행합니다.
 
-imagenames 배열 변수에 req.body.candidate를 할당하여 이전 16개의 input들의 value값들을 받아옵니다. urlappend에는 영어이름인 urltitle을 받아옵니다. 16번 반복하여 ‘public/assets/img/(urlappend변수)/’의 폴더 경로에 i번째 사진 파일명 i를 imagenames[i-1]로 fs 모듈의 fs.rename을 이용하여 바꾸어줍니다. 여기서, imagenames[0]은 썸네일 사진 ‘AAAAA’가 되므로 imagenames[1]이 1번째 사진에 대해 이름을 표기한 value 값이 됩니다. 반복이 끝나면 ‘/’로 redirect합니다.
+imagenames 배열 변수에 req.body.candidate를 할당하여 이전 16개의 input들의 value값들을 받아옵니다. urlappend에는 영어이름인 urltitle을 받아옵니다. 16번 반복하여 ‘public/assets/img/(urlappend변수)/’의 폴더 경로에 i번째 사진 파일명 i를 imagenames[i-1]로 fs 모듈의 fs.rename을 이용하여 바꾸어줍니다. 여기서, imagenames[0]은 썸네일 사진 ‘AAAAA’가 되므로 imagenames[1]이 1번째 사진에 대해 이름을 표기한 value 값이 됩니다. 모든 과정을 정상적으로 마쳤다면 해당 이상형 월드컵의 CardPost 데이터의 success 부분을 findOneAndUpdate()를 이용하여 true로 바꾸어줍니다. 반복이 끝나면 ‘/’로 redirect합니다.
 
 ---
 
